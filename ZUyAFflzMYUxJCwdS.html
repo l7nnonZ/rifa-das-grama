@@ -1,0 +1,91 @@
+<html><head><base href="https://websimcreationengine.com/raffle-site/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rifa Online - Compre Sua Cota</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+  }
+  .raffle-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .raffle-number {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .raffle-number:hover {
+    background-color: #2980b9;
+  }
+  .raffle-number.sold {
+    background-color: #e74c3c;
+    cursor: not-allowed;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rifa Online - Compre Sua Cota</h1>
+    <div class="raffle-grid" id="raffleGrid"></div>
+  </div>
+
+  <script>
+    const paymentLink = "https://pagamento.com"; // Substitua pelo seu link de pagamento real
+    const totalNumbers = 50;
+    const raffleGrid = document.getElementById('raffleGrid');
+
+    for (let i = 1; i <= totalNumbers; i++) {
+      const button = document.createElement('button');
+      button.className = 'raffle-number';
+      button.textContent = i;
+      button.addEventListener('click', () => selectNumber(i, button));
+      raffleGrid.appendChild(button);
+    }
+
+    function selectNumber(number, button) {
+      if (!button.classList.contains('sold')) {
+        const confirm = window.confirm(`Você selecionou o número ${number}. Deseja prosseguir para o pagamento?`);
+        if (confirm) {
+          window.location.href = `${paymentLink}?numero=${number}`;
+          button.classList.add('sold');
+        }
+      } else {
+        alert('Este número já foi vendido. Por favor, escolha outro.');
+      }
+    }
+
+    // Simular alguns números já vendidos
+    function simulateSoldNumbers() {
+      const soldNumbers = [5, 12, 25, 37, 48];
+      soldNumbers.forEach(num => {
+        const button = raffleGrid.children[num - 1];
+        button.classList.add('sold');
+      });
+    }
+
+    simulateSoldNumbers();
+  </script>
+</body>
+</html>
